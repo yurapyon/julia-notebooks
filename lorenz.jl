@@ -48,28 +48,33 @@ end
 # ╔═╡ 7570e007-d7e9-4759-95ce-7d577a3486b5
 @bind reset PlutoUI.Button()
 
+# ╔═╡ d7250d13-346c-4eca-84c7-5b760b2f875c
+const another = Settings{Float64}(20, 30, 8/3)
+
 # ╔═╡ 6f80c677-df61-4d65-a004-2e9e3c24b34a
 const classic = Settings{Float64}(10, 28, 8/3)
 
 # ╔═╡ d2fb0f1e-bb16-4ed8-9da2-e5bdc6dc5423
 state = begin
 	reset
-	State([Vec3(40,1,10)])
+	State([Vec3(4,1,1)])
 end
 
 # ╔═╡ 8a76cbcd-f426-406c-8435-67c9c3c4fb90
-begin
+plot = begin
 	calc
 	xs = map((p)->p.x, state.pts)
 	ys = map((p)->p.y, state.pts)
 	zs = map((p)->p.z, state.pts)
-	s = scatter3d(xs,ys,zs;
+	s = plot3d(xs,ys,zs;
 		xlims=(-30,30),
 		ylims=(-30,30),
 		zlims=(-10,60),
+		legend=false,
+		linewidth=1,
 	)
-	push!(state.pts, next(state.pts[length(state.pts)], 0.02, classic))
-	if length(state.pts) > 100
+	push!(state.pts, next(state.pts[length(state.pts)], 0.015, another))
+	if length(state.pts) > 200
 		popfirst!(state.pts)
 	end
 	s
@@ -1242,6 +1247,7 @@ version = "1.4.1+1"
 # ╠═1629cf70-6138-11ef-3ecd-fb4723f932d4
 # ╠═54c87c87-dab4-4f89-9c04-758fce936858
 # ╠═7570e007-d7e9-4759-95ce-7d577a3486b5
+# ╠═d7250d13-346c-4eca-84c7-5b760b2f875c
 # ╠═6f80c677-df61-4d65-a004-2e9e3c24b34a
 # ╠═d2fb0f1e-bb16-4ed8-9da2-e5bdc6dc5423
 # ╠═8a76cbcd-f426-406c-8435-67c9c3c4fb90
