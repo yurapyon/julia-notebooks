@@ -9,8 +9,8 @@ using Images, StaticArrays, PlutoUI
 
 # ╔═╡ a7fc5f04-49b1-4d6c-9fc2-46dd5ab37c97
 md"""
-### Lyapynov fractals
-[lyapynov fractal](https://en.wikipedia.org/wiki/Lyapunov_fractal)
+### Lyapunov fractals
+[lyapunov fractal](https://en.wikipedia.org/wiki/Lyapunov_fractal)
 [mario markus](https://en.wikipedia.org/wiki/Mario_Markus)
 """
 
@@ -24,7 +24,7 @@ function next(point, prev, char)
 end
 
 # ╔═╡ 96438fea-bc46-44b9-ad25-410326d0192d
-function lyapynov(point, string, N)
+function lyapunov(point, string, N)
 	x0 = 0.5
 	x1 = next(point, x0, string[1])
 	
@@ -41,14 +41,15 @@ end
 
 # ╔═╡ 57381b2a-1b08-4e66-807f-6d916c13830c
 function λcolor(λ)
-
 	if isnan(λ)
-		RGB(0, 0, 0)
+	    RGB(0, 0, 0)
 	elseif λ > 0
 		v = mod(λ, 0.2) * 5
+		if isnan(v) return RGB(0, 0, 0) end
 		RGB(0, v, v)
 	else
 		v = mod(λ, 1)
+		if isnan(v) return RGB(0, 0, 0) end
 		RGB(1-v, 1-sin(v), 1-sin(v))
 	end
 end
@@ -60,14 +61,23 @@ function render(xrange, yrange, string, N)
 		for j in eachindex(yrange)
 			x = xrange[i]
 			y = yrange[j]
-			ret[i, j] = lyapynov(SVector(x, y), string, N) |> λcolor
+			ret[i, j] = lyapunov(SVector(x, y), string, N) |> λcolor
 		end
 	end
 	ret
 end
 
+# ╔═╡ 2502a052-bfdd-4232-8757-d1a704b7be57
+# ╠═╡ disabled = true
+#=╠═╡
+img = render(3.81:0.0001:3.87, 3.81:0.0001:3.87, "ab", 5000)
+  ╠═╡ =#
+
 # ╔═╡ d8f46774-5a8b-4b33-aad7-0e0a8e965a6d
+# ╠═╡ disabled = true
+#=╠═╡
 img = render(3:0.0004:3.75, 3:0.0004:3.75, "babba", 150)
+  ╠═╡ =#
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1256,5 +1266,6 @@ version = "17.4.0+2"
 # ╠═57381b2a-1b08-4e66-807f-6d916c13830c
 # ╠═c0bbceb7-6e39-42b4-840f-daf144bc2650
 # ╠═d8f46774-5a8b-4b33-aad7-0e0a8e965a6d
+# ╠═2502a052-bfdd-4232-8757-d1a704b7be57
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
