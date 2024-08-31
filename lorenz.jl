@@ -61,6 +61,8 @@ state = begin
 end
 
 # ╔═╡ 8a76cbcd-f426-406c-8435-67c9c3c4fb90
+# ╠═╡ disabled = true
+#=╠═╡
 plot = begin
 	calc
 	xs = map((p)->p.x, state.pts)
@@ -73,12 +75,46 @@ plot = begin
 		legend=false,
 		linewidth=1,
 	)
-	push!(state.pts, next(state.pts[length(state.pts)], 0.015, another))
+	push!(state.pts, next(state.pts[length(state.pts)], 0.015, classic))
 	if length(state.pts) > 200
 		popfirst!(state.pts)
 	end
 	s
 end
+  ╠═╡ =#
+
+# ╔═╡ a1694bcb-a2ac-45fa-8310-b4b5cdc20b8f
+# ╠═╡ disabled = true
+#=╠═╡
+begin
+	xs = map((p)->p.x, state.pts)
+	ys = map((p)->p.y, state.pts)
+	zs = map((p)->p.z, state.pts)
+	a = Animation()
+	p = plot3d(xs,ys,zs;
+		xlims=(-30,30),
+		ylims=(-30,30),
+		zlims=(-10,60),
+		legend=false,
+		linewidth=1,
+	)
+	for i in 1:200
+		push!(state.pts, next(state.pts[length(state.pts)], 0.015, classic))
+		if length(state.pts) > 200
+			popfirst!(state.pts)
+		end
+		p = plot3d(xs,ys,zs;
+			xlims=(-30,30),
+			ylims=(-30,30),
+			zlims=(-10,60),
+			legend=false,
+			linewidth=1,
+		)
+		frame(a, p)
+	end
+	gif(a)
+end
+  ╠═╡ =#
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1251,5 +1287,6 @@ version = "1.4.1+1"
 # ╠═6f80c677-df61-4d65-a004-2e9e3c24b34a
 # ╠═d2fb0f1e-bb16-4ed8-9da2-e5bdc6dc5423
 # ╠═8a76cbcd-f426-406c-8435-67c9c3c4fb90
+# ╠═a1694bcb-a2ac-45fa-8310-b4b5cdc20b8f
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
